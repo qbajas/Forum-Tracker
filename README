@@ -1,1 +1,36 @@
-README
+Zadanie 2: Forum Tracker 
+Cel: 
+Opracowanie systemu wyszukiwania dyskusji internetowych na zadane tematy 
+Opis: 
+Zadaniem aplikacji bêdzie monitorowanie zasobów (polskiego) internetu i 
+wyszukiwanie forów dyskusyjnych na 
+których toczy siê dyskusja na zadane tematy (np. aktualnej dyspozycji 
+pi³karskiej reprezentacji). Aplikacja 
+powinna na podstawie dzia³ania w d³u¿szym okresie czasu (ok. miesi¹ca) 
+zidentyfikowaæ miejsca w sieci gdzie 
+takie dyskusje s¹ bardziej prawdopodobne - i odwiedzaæ je czêsto. 
+Równoczeœnie powinna te¿ poszukiwaæ na 
+bie¿¹co nowych 'lead-ów' np. przy pomocy google. Czêstotliwoœæ obserwowania 
+wybranych stron zale¿eæ 
+powinna od oczekiwanej mo¿liwoœci pojawienia siê na nich nowych w¹tków na 
+zadany temat. 
+Technologia: 
+(Java, C/C++, Perl), architektura klient/serwer 
+Komponenty do przygotowania: 
+Model / algorytm oceny zmiennoœci i atrakcyjnoœci danej strony internetowej 
+(pod k¹tem poszukiwañ)Serwer 
+zbieraj¹cy informacje z sieci 
+Aplikacja kliencka pozwalaj¹ca na wygodne przegl¹danie nowych i starych 
+w¹tków, generowanie statystyk itp. 
+Docelowe platformy uruchomieniowe / pakiety instalacyjne: 
+Serwer: Aplikacja mo¿liwa do skompilowania (make) i uruchomienia w 
+œrodowisku linux + paczka dla 
+dystrybucji Debian 
+Klient: Aplikacja mo¿liwa do skompilowania (make) i uruchomienia w 
+œrodowisku linux (KDE/QT) + paczka 
+dla dystrybucji Debian, oraz aplikacja z instalatorem dla systemu windows 
+(XP, 7). Instalator nie powinien 
+wymagaæ pre-instalowania innego oprogramowania poza dostêpnym standardowo w 
+systemie windows. 
+Uwaga: Wykorzystanie jako klienta przegl¹darki internetowej bêdzie uznane za 
+niepe³ne wykonanie zadania 
