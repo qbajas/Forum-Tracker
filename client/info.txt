@@ -1,0 +1,3 @@
+client dependecies:
+
+websocket-client (http://pypi.python.org/pypi/websocket-client/0.4)

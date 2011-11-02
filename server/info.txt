@@ -1,0 +1,4 @@
+server dependecies:
+
+mechanize (http://wwwsearch.sourceforge.net/mechanize/download.html)
+BeautifulSoup (https://launchpad.net/beautifulsoup/+download)
