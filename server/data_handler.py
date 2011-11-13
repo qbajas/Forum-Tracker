@@ -1,6 +1,6 @@
 # klasa obslugujaca dane
 # umozliwia dodawanie danych, zapis i odczyt z pliku
-# U¯YCIE:
+# UZYCIE:
 # 1. stworzenie instancji klasy
 # 2. uzycie metody 'add_entry'
 
