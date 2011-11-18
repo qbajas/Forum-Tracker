@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('dependencies') #dodanie katalogu 'dependencies' do sciezki, w ktorej ma 
+                                #szukac importow
+
 import mechanize, re, BeautifulSoup,time,urllib2, string
 from BeautifulSoup import BeautifulSoup
 from IPython.Shell import IPShellEmbed
@@ -23,6 +27,7 @@ class Tracker(object):
 		print results[string.find(results,"Około "):string.find(results, "wyników")]+"wyników:"
 		#soup to obiekt gotowy do parsowania
 		self.soup = BeautifulSoup(results)
+		print self.soup.findAll('a', attrs={'class':'l'})
 		links =   [x['href'] for x in self.soup.findAll('a', attrs={'class':'l'})]
 		print "\n".join(links)
 		return links
@@ -55,6 +60,7 @@ if __name__ == "__main__":
 	topic = raw_input("Enter the topic you would like to look for: \n>>> ")
 	trac = Tracker()
 	firstSiteLinks = trac.askGoogle(topic)
+	print len(firstSiteLinks)
 	linkNo = raw_input("Wybierz numer linka: \n>>> ")
 	#try:
 	trac.openForum(firstSiteLinks[int(linkNo)-1])
