@@ -3,6 +3,7 @@
 import re
 from datetime import datetime, timedelta
 import operator
+import mechanize
 
 #Aby tego uzywać istotna jest tylko funkcja rate_page.
 #Algorytm jest dosyć prosty i działa przez wyszukiwanie dat na stronie i porównywanie z datą
@@ -43,7 +44,7 @@ def parse_date4(regexout):
 #Tutaj przechowywane są różne formaty dat w formie wyrażeń regularnych razem z funkcją,
 #która potrafi sparsować dany format. Aby dodać nowy format, wystarczy dopisać kolejną parę
 #(REGEXP, FUNCTION)
-date_formats = (('(\d\d) ([a-zA-Zź]{3}) (\d{4}),? (\d\d):(\d\d)', parse_date1),
+date_formats = (('(\d\d) ([a-zA-Z]{3}),? (\d{4}),? (\d\d):(\d\d)', parse_date1),
                 ('(\d{4})-(\d{2})-(\d{2}),? (\d{1,2}):(\d\d)', parse_date2),
                 ('(Wczoraj|Dzisiaj),? (\d\d):(\d\d)', parse_date3),
                 ('(\d\d)[\./](\d\d)[\./](\d{4}),? (\d\d):(\d\d)', parse_date4))
@@ -75,7 +76,6 @@ def rate(str):
         rate = 1.0 / (date + 1) / i
         sum = sum + rate
         i = i * 2
-#    print sum
     return sum
     
         
@@ -96,3 +96,8 @@ def rate_page(str):
     return rate(replace_nonascii(str))
 
 
+def rate_URL(url):
+    br = mechanize.Browser(factory = mechanize.RobustFactory())
+    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
+    br.open(url)
+    return rate_page(br.response().read())
