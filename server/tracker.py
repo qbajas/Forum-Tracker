@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
-import sys
-sys.path.append('dependencies') #dodanie katalogu 'dependencies' do sciezki, w ktorej ma 
-                                #szukac importow
-
-import mechanize, re, BeautifulSoup,time,urllib2, string
+import re, BeautifulSoup, mechanize, time,urllib2, string
 from BeautifulSoup import BeautifulSoup
-from IPython.Shell import IPShellEmbed
+#from IPython.Shell import IPShellEmbed
 
 class Tracker(object):
 	def __init__(self):
@@ -20,7 +16,7 @@ class Tracker(object):
 		self.br.open('http://google.pl')
 		#wybieramy sobie formularz na stronie (można wybierać też po nazwie, ale na googlach jest tylko jeden, stąd po numerku)
 		self.br.select_form(nr=0)
-		self.br.form['q'] = question
+		self.br.form['q'] = question + ' dyskusja' #chcemy tylko strony z dyskusją
 		self.br.submit()
 		#do results włazi po prostu otwarty html
 		results = self.br.response().read()
@@ -66,4 +62,4 @@ if __name__ == "__main__":
 	trac.openForum(firstSiteLinks[int(linkNo)-1])
 	#except ValueError:
 		#print "Cza było wybrać numer"
-	IPShellEmbed()()
+#	IPShellEmbed()()

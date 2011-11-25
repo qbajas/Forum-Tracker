@@ -1,7 +1,7 @@
  #!/usr/bin/env python
  # -*- coding: utf-8 -*-
      
-import socket, threading, tracker
+import socket, threading, tracker, page_rater
  
 httphost = "localhost:9999"
 sockethost = "localhost:10001"
@@ -46,8 +46,10 @@ def handle(s, addr):
  
 def askGoogle(req,lock,s):
 	tls.firstSiteLinks = trac.askGoogle(req)
+        tls.firstSiteLinks.sort(key = page_rater.rate_URL, reverse = True)
+        print "Sorted"
 	lock.acquire()
-	s.send('\x00' + '\n'.join([str(no+1)+'. '+item.encode('utf8') for no,item in enumerate(tls.firstSiteLinks)]) +  '\xff')
+	s.send('\x00' + '\n'.join([item.encode('utf8') for no,item in enumerate(tls.firstSiteLinks)]) +  '\xff')
 	lock.release()
 	
 def getSections(req,lock,s):

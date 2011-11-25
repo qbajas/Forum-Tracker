@@ -22,6 +22,8 @@ def parse_date1(regexout):
     shortmonths = ('sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz',
                    'paz', 'lis', 'gru')
     day, shortmonth, year, hour, minute = regexout
+    if shortmonth not in shortmonths:
+        shortmonth = 'sty'
     return datetime(int(year), shortmonths.index(shortmonth.lower()) + 1, int(day),
                              int(hour), int(minute))
 
@@ -40,14 +42,38 @@ def parse_date4(regexout):
     day, month, year, hour, minute = regexout
     return datetime(int(year), int(month), int(day), int(hour), int(minute))
 
+def parse_date5(regexout):
+    return parse_date1(regexout[2:] + regexout[:2])
+
+def parse_date6(regexout):
+    fullmonths = ('styczen', 'luty', 'marzec', 'kwiecien', 'maj', 'czerwiec', 'lipiec', 'sierpien', 'wrzesien',
+                   'pazdziernik', 'listopad', 'grudzien')
+    day, month, year, hour, minute = regexout
+    if month.lower() not in fullmonths:
+        month = 'styczen'
+    return datetime(int(year), fullmonths.index(month.lower()) + 1, int(day),
+                             int(hour), int(minute))
+def parse_date7(regexout):
+    l = list(regexout)
+    l[0], l[1] = l[1], l[0]
+    return parse_date1(l)
+
+def parse_date8(regexout):
+    day, month, year = regexout
+    return datetime(int(year), int(month), int(day))    
+
 
 #Tutaj przechowywane są różne formaty dat w formie wyrażeń regularnych razem z funkcją,
 #która potrafi sparsować dany format. Aby dodać nowy format, wystarczy dopisać kolejną parę
 #(REGEXP, FUNCTION)
 date_formats = (('(\d\d) ([a-zA-Z]{3}),? (\d{4}),? (\d\d):(\d\d)', parse_date1),
                 ('(\d{4})-(\d{2})-(\d{2}),? (\d{1,2}):(\d\d)', parse_date2),
-                ('(Wczoraj|Dzisiaj),? (\d\d):(\d\d)', parse_date3),
-                ('(\d\d)[\./](\d\d)[\./](\d{4}),? (\d\d):(\d\d)', parse_date4))
+                ('(Wczoraj|Dzisiaj|wczoraj|dzisiaj),? (\d\d):(\d\d)?', parse_date3),
+                ('(\d\d)[\./-](\d\d)[\./-](\d{4}),? (\d\d):(\d\d)?', parse_date4),
+                ('(\d\d):(\d\d),? (\d\d) ([a-zA-Z]{3}),? (\d{4})', parse_date5),
+                ('(\d\d) ([a-zA-Z]+),? (\d{4}),? ?-? (\d\d):(\d\d)?', parse_date6),
+                ('([a-zA-Z]{3}),? (\d\d),? (\d{4}),? (\d\d):(\d\d)?', parse_date7),
+                ('(\d\d)[\./-](\d\d)[\./-](\d{4})', parse_date8))
 
 #####
 
@@ -98,6 +124,9 @@ def rate_page(str):
 
 def rate_URL(url):
     br = mechanize.Browser(factory = mechanize.RobustFactory())
+    br.set_handle_robots(False)
     br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
     br.open(url)
-    return rate_page(br.response().read())
+    r =  rate_page(br.response().read())
+    print url, r
+    return r
