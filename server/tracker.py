@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re, BeautifulSoup, mechanize, time,urllib2, string
+import re, BeautifulSoup, mechanize, time,urllib2, string, page_rater
 from data_handler import DataHandler
 from BeautifulSoup import BeautifulSoup
 #from IPython.Shell import IPShellEmbed
@@ -21,7 +21,7 @@ class Tracker(object):
 		self.br.select_form(nr=0)
 		# probojemy zaladowac dane z bazy danych
 		try:
-			links = self.db.load_links(question)
+			links = self.db.load_search(question)
 		except KeyError:		
 		# jesli danych nie ma w bazie to pytamy googla
 			self.br.form['q'] = question + ' dyskusja' #chcemy tylko strony z dyskusją
@@ -34,7 +34,9 @@ class Tracker(object):
 			print self.soup.findAll('a', attrs={'class':'l'})
 			links =   [x['href'] for x in self.soup.findAll('a', attrs={'class':'l'})]
 			print "\n".join(links)
-			self.db.add_entry(question,links)
+			self.db.add_search(question,links)
+		links.sort(key = lambda url: page_rater.rate_URL(url, self.db), reverse = True)
+		print "Sorted"
 		return links
 	
 	#tutaj dobrze by bylo sprawdzac, czy forum spelnia jakies tam wymagania (np. czy to phpBB)
