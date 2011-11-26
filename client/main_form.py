@@ -58,7 +58,7 @@ class MainForm(QWidget):
         
     def doAskGoogle(self):
         # Uwaga! Wszystkie teksty pobierane z QLineEdit maja typ QString, a nie string!
-        links = self.clientApp.askGoogle(str(self.askGoogle))
+        links = self.clientApp.askGoogle(unicode(self.askGoogle))
         
         # Najpierw czyscimy liste
         self.linksList.clear()
