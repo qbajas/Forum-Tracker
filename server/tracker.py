@@ -33,8 +33,21 @@ class Tracker(object):
 			self.soup = BeautifulSoup(results)
 			print self.soup.findAll('a', attrs={'class':'l'})
 			links =   [x['href'] for x in self.soup.findAll('a', attrs={'class':'l'})]
+			#druga strona wyników
+			fl_tags = self.soup.findAll('a', attrs = {'class':'fl'})
+			second_page = ''
+			for tag in fl_tags:
+				if tag.findAll(text = '2') != []:
+					second_page = tag['href']
+			print 'adres drugiej strony:',second_page
+			self.br.open(second_page)
+			self.soup = BeautifulSoup(self.br.response().read())
+			links.extend([x['href'] for x in self.soup.findAll('a', attrs={'class':'l'})])
 			print "\n".join(links)
 			self.db.add_search(question,links)
+                #wyrzucamy linki, ktore zbiorą ocenę 0.0 - raczej nie są interesujące
+		links = filter(lambda url: page_rater.rate_URL(url, self.db) > 0.0, links)
+		#sortujemy względem aktywności
 		links.sort(key = lambda url: page_rater.rate_URL(url, self.db), reverse = True)
 		print "Sorted"
 		return links

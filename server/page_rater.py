@@ -111,7 +111,7 @@ def rate(str):
     
     sum = 0.0
     for date in dates:
-        rate = 1.0 / (date + 1) / i
+        rate = 1.0 / (date + 1)# / i # wyrzuciłem to dzielenie, żeby zwiększyć znaczenie ilości dat (postów) względem aktualności
         sum = sum + rate
         i = i * 2
     return sum
