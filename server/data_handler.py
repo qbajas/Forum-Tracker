@@ -8,20 +8,23 @@ import pickle,collections
 
 class DataHandler:
 # format danych (zmienna 'data'):
-# {slowo_kluczowe, [(link1,ocena1.1,ocena1.2),(link2,ocena2.1,ocena2.2)...]} 	
-# czyli: slownik, ktorego kluczami sa slowa kluczowe a wartosciami lista krotek
-# zapewniona jest unikalnosc slow kluczowych
+# slownik: klucz - slowo kluczowe, wartosc - linki
 	
 # przy tworzeniu obiektu dane sa wczytywane z pliku
 	def __init__(self):
-		self.data = collections.defaultdict(list)
+		self.data = {}
 		self.load_from_file()
 
 # dodawanie wpisu z danymi
-# parametry: slowo kluczowe, link, ocena1, ocena2
-	def add_entry(self, keyword, link, rating1, rating2):
-		self.data[keyword].append( (link,rating1, rating2) )
+# parametry: slowo kluczowe, linki
+	def add_entry(self, keyword, links):
+		self.data[keyword] = links
 		self.save_to_file()
+		
+# wczytywanie linkow dla slowa kluczowego	
+# KeyError jesli slowa nie ma w bazie	
+	def load_links(self, keyword):
+		return self.data[keyword]
 	
 # obsluga plikow	
 	def save_to_file(self):
@@ -38,11 +41,3 @@ class DataHandler:
 			print 'no data file found'
 		
 		
-# mozliwe do zaimplementowania metody
-		
-	#def get_link_with_best_rating1(self, keyword)	
-			
-	#def get_link_with_best_rating2(self, keyword)
-		
-	
-	
