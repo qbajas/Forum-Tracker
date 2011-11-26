@@ -4,6 +4,7 @@ import re
 from datetime import datetime, timedelta
 import operator
 import mechanize
+import data_handler
 
 #Aby tego uzywać istotna jest tylko funkcja rate_page.
 #Algorytm jest dosyć prosty i działa przez wyszukiwanie dat na stronie i porównywanie z datą
@@ -19,12 +20,20 @@ import mechanize
 
 #Funkcje parsujące różne formaty dat
 def parse_date1(regexout):
-    shortmonths = ('sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz',
-                   'paz', 'lis', 'gru')
-    day, shortmonth, year, hour, minute = regexout
-    if shortmonth not in shortmonths:
-        shortmonth = 'sty'
-    return datetime(int(year), shortmonths.index(shortmonth.lower()) + 1, int(day),
+    months = (('sty', 'lut', 'mar', 'kwi', 'maj', 'cze', 'lip', 'sie', 'wrz',
+               'paz', 'lis', 'gru'),
+              ('styczen', 'luty', 'marzec', 'kwiecien', 'maj', 'czerwiec', 'lipiec', 'sierpien', 'wrzesien',
+               'pazdziernik', 'listopad', 'grudzien'),
+              ('jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'),
+              ('january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september',
+               'october', 'november', 'december'))
+    day, month, year, hour, minute = regexout
+    monthnum = 0
+    for ls in months:
+        if month.lower() in ls:
+            monthnum = ls.index(month.lower())
+
+    return datetime(int(year), monthnum + 1, int(day),
                              int(hour), int(minute))
 
 def parse_date2(regexout):
@@ -54,11 +63,13 @@ def parse_date6(regexout):
     return datetime(int(year), fullmonths.index(month.lower()) + 1, int(day),
                              int(hour), int(minute))
 def parse_date7(regexout):
+    print 
     l = list(regexout)
     l[0], l[1] = l[1], l[0]
     return parse_date1(l)
 
 def parse_date8(regexout):
+    print 'date8', regexout
     day, month, year = regexout
     return datetime(int(year), int(month), int(day))    
 
@@ -66,14 +77,14 @@ def parse_date8(regexout):
 #Tutaj przechowywane są różne formaty dat w formie wyrażeń regularnych razem z funkcją,
 #która potrafi sparsować dany format. Aby dodać nowy format, wystarczy dopisać kolejną parę
 #(REGEXP, FUNCTION)
-date_formats = (('(\d\d) ([a-zA-Z]{3}),? (\d{4}),? (\d\d):(\d\d)', parse_date1),
-                ('(\d{4})-(\d{2})-(\d{2}),? (\d{1,2}):(\d\d)', parse_date2),
-                ('(Wczoraj|Dzisiaj|wczoraj|dzisiaj),? (\d\d):(\d\d)?', parse_date3),
-                ('(\d\d)[\./-](\d\d)[\./-](\d{4}),? (\d\d):(\d\d)?', parse_date4),
-                ('(\d\d):(\d\d),? (\d\d) ([a-zA-Z]{3}),? (\d{4})', parse_date5),
-                ('(\d\d) ([a-zA-Z]+),? (\d{4}),? ?-? (\d\d):(\d\d)?', parse_date6),
-                ('([a-zA-Z]{3}),? (\d\d),? (\d{4}),? (\d\d):(\d\d)?', parse_date7),
-                ('(\d\d)[\./-](\d\d)[\./-](\d{4})', parse_date8))
+date_formats = (('(\d{1,2}) ([a-zA-Z]+),? (\d{4})(?:,| -)? (?:o |at )?(\d{1,2}):(\d\d)', parse_date1),
+                ('(\d{4})-(\d{2})-(\d{1,2}),? (?:o |at )?(\d{1,2}):(\d{1,2})', parse_date2),
+                ('(Wczoraj|Dzisiaj|wczoraj|dzisiaj),? (?:o |at )?(\d{1,2}):(\d\d)?', parse_date3),
+                ('(\d{1,2})[\./-](\d\d)[\./-](\d{4}),? (?:o |at )?(\d{1,2}):(\d\d)?', parse_date4),
+                ('(\d{1,2}):(\d\d),? (\d{1,2}) ([a-zA-Z]{3}),? (\d{4})', parse_date5),
+#                ('(\d\d) ([a-zA-Z]+),? (\d{4})(?:,| -)? (?:o )?(\d{1,2}):(\d\d)?', parse_date6),
+                ('([a-zA-Z]+),? (\d{1,2}),? (\d{4}),? (?:o |at )?(\d{1,2}):(\d\d)?', parse_date7))
+#                ('(\d\d)[\./-](\d\d)[\./-](\d{4})', parse_date8))
 
 #####
 
@@ -81,6 +92,7 @@ def find_date(form, s):
     """Znajduje daty w podanym formacie. Form jest parą (REGEXP, FUNCTION), a s to string,
     w którym będą szukane daty."""
     r = map(form[1], re.findall(form[0], s))[2:-1]
+#    print r, form[0]
     return r
 
 def find_all_dates(str):
@@ -117,16 +129,33 @@ def replace_nonascii(str):
     return str
 
 def rate_page(str):
-    """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 - 2.0.
+    """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 ~ 2.0 (około).
     Im wyższa ocena tym bardziej aktualna strona."""
     return rate(replace_nonascii(str))
 
-
-def rate_URL(url):
+def rate_URL_no_cache(url):
+    print 'wczytywanie:', url
     br = mechanize.Browser(factory = mechanize.RobustFactory())
     br.set_handle_robots(False)
+    br.set_handle_refresh(True)
+    br.set_handle_equiv(True)
     br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
-    br.open(url)
-    r =  rate_page(br.response().read())
+    try:
+        br.open(url)
+#        print br.response().read()
+        r =  rate_page(br.response().read())
+    except:
+        return 0.0
+    
     print url, r
     return r
+
+def rate_URL(url, db):
+    try:
+        return db.load_link(url)
+    except KeyError:
+        r = rate_URL_no_cache(url)
+        db.add_link(url, r)
+        return r
+        
+    

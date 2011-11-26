@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import re, BeautifulSoup, mechanize, time,urllib2, string
+import re, BeautifulSoup, mechanize, time,urllib2, string, page_rater
+from data_handler import DataHandler
 from BeautifulSoup import BeautifulSoup
 #from IPython.Shell import IPShellEmbed
 
@@ -11,21 +12,31 @@ class Tracker(object):
 		self.br.set_handle_robots(False)
 		# musimy udawać prawdziwą przeglądarkę, inaczej google nas nie puści :D
 		self.br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
+		# inicjalizacja bazy
+		self.db = DataHandler()
 		
 	def askGoogle(self,question):
 		self.br.open('http://google.pl')
 		#wybieramy sobie formularz na stronie (można wybierać też po nazwie, ale na googlach jest tylko jeden, stąd po numerku)
 		self.br.select_form(nr=0)
-		self.br.form['q'] = question + ' dyskusja' #chcemy tylko strony z dyskusją
-		self.br.submit()
-		#do results włazi po prostu otwarty html
-		results = self.br.response().read()
-		print results[string.find(results,"Około "):string.find(results, "wyników")]+"wyników:"
-		#soup to obiekt gotowy do parsowania
-		self.soup = BeautifulSoup(results)
-		print self.soup.findAll('a', attrs={'class':'l'})
-		links =   [x['href'] for x in self.soup.findAll('a', attrs={'class':'l'})]
-		print "\n".join(links)
+		# probojemy zaladowac dane z bazy danych
+		try:
+			links = self.db.load_search(question)
+		except KeyError:		
+		# jesli danych nie ma w bazie to pytamy googla
+			self.br.form['q'] = question + ' dyskusja' #chcemy tylko strony z dyskusją
+			self.br.submit()
+			#do results włazi po prostu otwarty html
+			results = self.br.response().read()
+			print results[string.find(results,"Około "):string.find(results, "wyników")]+"wyników:"
+			#soup to obiekt gotowy do parsowania
+			self.soup = BeautifulSoup(results)
+			print self.soup.findAll('a', attrs={'class':'l'})
+			links =   [x['href'] for x in self.soup.findAll('a', attrs={'class':'l'})]
+			print "\n".join(links)
+			self.db.add_search(question,links)
+		links.sort(key = lambda url: page_rater.rate_URL(url, self.db), reverse = True)
+		print "Sorted"
 		return links
 	
 	#tutaj dobrze by bylo sprawdzac, czy forum spelnia jakies tam wymagania (np. czy to phpBB)

@@ -2,3 +2,7 @@ server dependecies:
 
 mechanize (http://wwwsearch.sourceforge.net/mechanize/download.html)
 BeautifulSoup (https://launchpad.net/beautifulsoup/+download)
+
+
+server start:
+python server.py & python -m SimpleHTTPServer 9999 &
