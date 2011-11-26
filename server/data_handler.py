@@ -5,7 +5,7 @@
 # 2. uzycie metody 'add_search' i 'load_search'aby cache'owac wyszukiwanie
 # 3. uzycie metod 'add_link' i 'load_link' aby cache'owac oceny linkow
 
-import pickle,collections
+import pickle,collections,datetime
 
 class DataHandler:
 # format danych (zmienna 'data'):
@@ -24,7 +24,11 @@ class DataHandler:
 		self.save_to_file()
 
 	def add_link(self, link, rating):
-		self.link_data[link] = rating
+		entry = (rating, datetime.datetime.now())
+		try:
+			self.link_data[link].append(entry)
+		except KeyError:
+			self.link_data[link] = [(entry)]
 		self.save_to_file()
 		
 # wczytywanie linkow dla slowa kluczowego	

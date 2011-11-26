@@ -111,7 +111,7 @@ def rate(str):
     
     sum = 0.0
     for date in dates:
-        rate = 1.0 / (date + 1)# / i # wyrzuciłem to dzielenie, żeby zwiększyć znaczenie ilości dat (postów) względem aktualności
+        rate = 1.0 / (date + 1) / i
         sum = sum + rate
         i = i * 2
     return sum
@@ -152,10 +152,13 @@ def rate_URL_no_cache(url):
 
 def rate_URL(url, db):
     try:
-        return db.load_link(url)
+        rating = db.load_link(url)[-1]
+        if datetime.now() - rating[1] < timedelta(days = 1):
+            return rating[0]
     except KeyError:
-        r = rate_URL_no_cache(url)
-        db.add_link(url, r)
-        return r
+        pass
+    r = rate_URL_no_cache(url)
+    db.add_link(url, r)
+    return r
         
     
