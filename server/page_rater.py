@@ -54,11 +54,13 @@ def parse_date6(regexout):
     return datetime(int(year), fullmonths.index(month.lower()) + 1, int(day),
                              int(hour), int(minute))
 def parse_date7(regexout):
+    print 
     l = list(regexout)
     l[0], l[1] = l[1], l[0]
     return parse_date1(l)
 
 def parse_date8(regexout):
+    print 'date8', regexout
     day, month, year = regexout
     return datetime(int(year), int(month), int(day))    
 
@@ -72,8 +74,8 @@ date_formats = (('(\d\d) ([a-zA-Z]{3}),? (\d{4}),? (\d\d):(\d\d)', parse_date1),
                 ('(\d\d)[\./-](\d\d)[\./-](\d{4}),? (\d\d):(\d\d)?', parse_date4),
                 ('(\d\d):(\d\d),? (\d\d) ([a-zA-Z]{3}),? (\d{4})', parse_date5),
                 ('(\d\d) ([a-zA-Z]+),? (\d{4}),? ?-? (\d\d):(\d\d)?', parse_date6),
-                ('([a-zA-Z]{3}),? (\d\d),? (\d{4}),? (\d\d):(\d\d)?', parse_date7),
-                ('(\d\d)[\./-](\d\d)[\./-](\d{4})', parse_date8))
+                ('([a-zA-Z]{3}),? (\d\d),? (\d{4}),? (\d\d):(\d\d)?', parse_date7))
+#                ('(\d\d)[\./-](\d\d)[\./-](\d{4})', parse_date8))
 
 #####
 
@@ -81,6 +83,7 @@ def find_date(form, s):
     """Znajduje daty w podanym formacie. Form jest parą (REGEXP, FUNCTION), a s to string,
     w którym będą szukane daty."""
     r = map(form[1], re.findall(form[0], s))[2:-1]
+#    print r, form[0]
     return r
 
 def find_all_dates(str):
@@ -117,16 +120,21 @@ def replace_nonascii(str):
     return str
 
 def rate_page(str):
-    """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 - 2.0.
+    """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 ~ 2.0 (około).
     Im wyższa ocena tym bardziej aktualna strona."""
     return rate(replace_nonascii(str))
 
 
 def rate_URL(url):
+    print 'wczytywanie:', url
     br = mechanize.Browser(factory = mechanize.RobustFactory())
     br.set_handle_robots(False)
     br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
-    br.open(url)
-    r =  rate_page(br.response().read())
+    try:
+        br.open(url)
+        r =  rate_page(br.response().read())
+    except:
+        return 0.0
+        
     print url, r
     return r

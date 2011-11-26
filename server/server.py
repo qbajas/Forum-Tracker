@@ -46,7 +46,7 @@ def handle(s, addr):
  
 def askGoogle(req,lock,s):
 	tls.firstSiteLinks = trac.askGoogle(req)
-        #tls.firstSiteLinks.sort(key = page_rater.rate_URL, reverse = True)
+        tls.firstSiteLinks.sort(key = page_rater.rate_URL, reverse = True)
         print "Sorted"
 	lock.acquire()
 	s.send('\x00' + '\n'.join([item.encode('utf8') for no,item in enumerate(tls.firstSiteLinks)]) +  '\xff')
