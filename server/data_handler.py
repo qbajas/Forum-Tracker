@@ -1,9 +1,12 @@
+ # -*- coding: utf-8 -*-
 # klasa obslugujaca dane
 # umozliwia dodawanie danych, zapis i odczyt z pliku
 # UZYCIE:
 # 1. stworzenie instancji klasy
 # 2. uzycie metody 'add_search' i 'load_search'aby cache'owac wyszukiwanie
 # 3. uzycie metod 'add_link' i 'load_link' aby cache'owac oceny linkow
+
+# load_link zwraca listę tupli (ocena, data_wystawienia_oceny). Jeśli udałoby się to przepchnąć przez protokół sieciowy # i wyświetlić w kliecie to mamy statystyki
 
 import pickle,collections,datetime
 

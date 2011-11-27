@@ -2,7 +2,7 @@
  # -*- coding: utf-8 -*-
      
 import socket, threading, tracker
- 
+import pickle
 httphost = "localhost:9999"
 sockethost = "localhost:10001"
 
@@ -46,8 +46,11 @@ def handle(s, addr):
  
 def askGoogle(req,lock,s):
 	tls.firstSiteLinks = trac.askGoogle(req)
+#        print '\n'.join([item.encode('utf8') + ' ' + stat for item in tls.firstSiteLinks for stat in trac.getSerializedStats(tls.firstSiteLinks)])
+#        linkstat = map(lambda a,b: a.encode('utf8') + ' ' + b, tls.firstSiteLinks, trac.getSerializedStats(tls.firstSiteLinks))
+        linkstat = [(link, trac.getStats(link)) for link in tls.firstSiteLinks] # wysyłamy strony razem ze statsami w formie (link, [(ocena, data), (ocena, data)...])
 	lock.acquire()
-	s.send('\x00' + '\n'.join([item.encode('utf8') for no,item in enumerate(tls.firstSiteLinks)]) +  '\xff')
+	s.send('\x00' + pickle.dumps(linkstat) +  '\xff')
 	lock.release()
 	
 def getSections(req,lock,s):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re, BeautifulSoup, mechanize, time,urllib2, string, page_rater
+import re, BeautifulSoup, mechanize, time,urllib2, string, page_rater, pickle
 from data_handler import DataHandler
 from BeautifulSoup import BeautifulSoup
 #from IPython.Shell import IPShellEmbed
@@ -51,6 +51,11 @@ class Tracker(object):
 		links.sort(key = lambda url: page_rater.rate_URL(url, self.db), reverse = True)
 		print "Sorted"
 		return links
+
+	def getSerializedStats(self, links):
+		return map(lambda link: pickle.dumps(self.db.load_link(link)), links)
+	def getStats(self, link):
+		return self.db.load_link(link)
 	
 	#tutaj dobrze by bylo sprawdzac, czy forum spelnia jakies tam wymagania (np. czy to phpBB)
 	def openForum(self,URL):
