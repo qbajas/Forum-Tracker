@@ -4,6 +4,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtWebKit import *
 from PyQt4.QtCore import *
 
+
 class MainForm(QWidget):
     
     def __init__(self, clientApp):
@@ -35,6 +36,8 @@ class MainForm(QWidget):
         # Nie chcemy robic przegladarki
         self.webView.setEnabled(False)
         
+        self.plot = QGraphicsView()
+
         grid = QGridLayout()
         grid.setSpacing(10)
         
@@ -58,13 +61,18 @@ class MainForm(QWidget):
         
     def doAskGoogle(self):
         # Uwaga! Wszystkie teksty pobierane z QLineEdit maja typ QString, a nie string!
-        links = self.clientApp.askGoogle(unicode(self.askGoogle))
+        linkstats = self.clientApp.askGoogle(unicode(self.askGoogle))
         
+    #    links = [item.split(' ')[0] for item in linkstats]
         # Najpierw czyscimy liste
         self.linksList.clear()
         
-        for link in links:
-            self.linksList.addItem(QListWidgetItem(link))
+        for link in linkstats:
+            self.linksList.addItem(QListWidgetItem(link[0]))
+            
+    def drawStats(self):
+        scene = QGraphicsScene()
+
         
     def showForum(self):
         self.webView.load(QUrl(str(self.linksList.currentItem().text())))

@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from websocket import create_connection
+import pickle
 
 import time, os, socket
 
@@ -40,7 +41,8 @@ class Client:
 		print "Received:\n%s\n" % result
 		
 		# lista linkow
-		return result.split("\n")
+		return pickle.loads(result)
+		
 	
 	def getSections(self):
 		linkNo = raw_input("Pokaż tematy dla forum (wybierz numer linka): \n>>> ")
