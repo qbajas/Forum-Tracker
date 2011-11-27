@@ -1,0 +1,13 @@
+Package: forum-tracker-server
+Version: 1.0.0-1
+Architecture: i386
+Maintainer: czlowiek programista <obcym.nie@podaje.com>
+Depends: python (>= 2.6.6-1), python-mechanize (>= 0.1.11), python-beautifulsoup (>= 3.1.0.1)
+Section: net
+Priority: extra
+Homepage: http://nie.ma.com
+Description: Program forum-tracker-server - serwer śledzący fora internetowe
+ forum-tracker-server jest serwerem aplikacji śledzącej fora internetowe.
+ Przechowuje on zapytania klientów i na ich podstawie wyszukuje dyskusji
+ na forach internetowych na temapty zawarte w zapytaniu. Dyskusje są sortowane
+ wg przydatności - najlepsze dyskusje są na pierwszym miejscu.
