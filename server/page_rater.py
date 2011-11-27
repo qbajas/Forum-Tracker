@@ -6,15 +6,14 @@ import operator
 import mechanize
 import data_handler
 
-#Aby tego uzywać istotna jest tylko funkcja rate_page.
+#Aby tego uzywać istotna jest tylko funkcja rate_URL.
 #Algorytm jest dosyć prosty i działa przez wyszukiwanie dat na stronie i porównywanie z datą
 #aktualną. Strona dostanie wysoką ocenę jeśli zawiera aktualne dat. Jeśli 2 strony
 #zawierają podobne daty, decyduje ilość ich wystąpień.
 #Algorytm ma trochę dziur. Główny problem jest związany z tym, że fora często wyświetlają
 #coś w stylu aktualnego czasu i czasu ostatniej wizyty. Na razie po prostu odrzucam
-#dwie pierwsze i ostatnią datę na stronie, bo dla naszego projektu lepiej żeby aktualna
-#strona nie została wyświetlona, niż żeby nieaktualna znalazła się na samej górze ;).
-#Może jeszcze wymyślę jakiś ładny sposób, żeby to ulepszyć.
+#dwie pierwsze i ostatnią datę na stronie.
+
 
 ####
 
@@ -134,6 +133,7 @@ def rate_page(str):
     return rate(replace_nonascii(str))
 
 def rate_URL_no_cache(url):
+    """Pobiera treść strony i ocenia ją"""
     print 'wczytywanie:', url
     br = mechanize.Browser(factory = mechanize.RobustFactory())
     br.set_handle_robots(False)
@@ -151,9 +151,10 @@ def rate_URL_no_cache(url):
     return r
 
 def rate_URL(url, db):
+    """Sprawdza czy strona była ostatnio oceniana; jeśli nie - ocenia ją"""
     try:
         rating = db.load_link(url)[-1]
-        if datetime.now() - rating[1] < timedelta(days = 1):
+        if datetime.now() - rating[1] < timedelta(hours = 6): # czy strona była oceniana w ciągu ostatnich 6 godzin
             return rating[0]
     except KeyError:
         pass
