@@ -38,9 +38,9 @@ class Client:
 		
 		result =  self.ws.recv()
 		
-		print "Received:\n%s\n" % result
+		print "Received\n"# % result
 		
-		# lista linkow
+		# lista linkow w formacie (link, [(ocena, data), ...])
 		return pickle.loads(result)
 		
 	
