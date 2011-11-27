@@ -1,0 +1,24 @@
+Copyright (c) 2011, GrupaZP
+Wszystkie prawa zastrze¿one 
+Redystrybucja   i   u¿ywanie,   czy   to   w   formie   kodu   Ÿród³owego,   czy   w   formie   kodu 
+wykonawczego, s¹ dozwolone pod warunkiem spe³nienia poni¿szych warunków: 
+Redystrybucja kodu Ÿród³owego musi zawieraæ powy¿sz¹ notê kopyrightow¹, niniejsz¹ listê
+warunków oraz poni¿sze oœwiadczenie o wy³¹czeniu odpowiedzialnoœci. 
+Redystrybucja  kodu  wykonawczego  musi  zawieraæ  powy¿sz¹  notê  kopyrightow¹,  niniejsz¹
+listê warunków oraz poni¿sze oœwiadczenie o wy³¹czeniu odpowiedzialnoœci w dokumentacji 
+i/lub w w innych materia³ach dostarczanych wraz z kopi¹ oprogramowania. 
+Ani  nazwa  GrupaZP,  ani  nazwa  jej  wspó³pracowników  nie  mog¹  byæ  u¿yte  celem 
+sygnowania   lub   promowania   produktów   pochodz¹cych   od   tego   oprogramowania,   bez 
+szczególnego, wyra¿onego na piœmie ich zezwolenia. 
+TO OPROGRAMOWANIE JEST DOSTARCZONE PRZEZ <posiadacz praw autorskich> „TAKIM, JAKIE 
+JEST”. KA¯DA, DOROZUMIANA LUB BEZPOŒREDNIO WYRAœONA GWARANCJA, NIE WY£¥CZAJ¥C DOROZUMIANEJ  GWARANCJI  PRZYDATNOŒCI  HANDLOWEJ  I  PRZYDATNOŒCI  DO  OKREŒLONEGO 
+ZASTOSOWANIA,  JEST  WY£¥CZONA. W ¯ADNYM  WYPADKU  REGENCI  I  WSPÓ£PRACOWNICY  NIE 
+MOG¥  BYÆ  ODPOWIEDZIALNI  ZA  JAKIEKOLWIEK  BEZPOŒREDNIE,  POŒREDNIE,  INCYDENTALNE,
+SPECJALNE,   UBOCZNE   I   WTÓRNE   SZKODY   (NIE   WY£¥CZAJ¥C   OBOWI¥ZKU    DOSTARCZENIA 
+PRODUKTU  ZASTÊPCZEGO  LUB  SERWISU,   ODPOWIEDZIALNOŒCI  Z  TYTU£U  UTRATY  WALORÓW 
+U¯YTKOWYCH,     UTRATY     DANYCH     LUB     KORZYŒCI     A     TAK¯E     PRZERW     W     PRACY 
+PRZEDSIÊBIORSTWA)  SPOWODOWANE  W  JAKIKOLWIEK  SPOSÓB  I  NA  PODSTAWIE  ISTNIEJ¥CEJ  W 
+TEORII    ODPOWIEDZIALNOŒCI    KONTRAKTOWEJ,    CA£KOWITEJ    LUB    DELIKTOWEJ    (WYNIK£EJ 
+ZARÓWNO Z NIEDBALSTWA JAK INNYCH POSTACI WINY), POWSTA£E W JAKIKOLWIEK SPOSÓB W 
+WYNIKU  U¯YWANIA  LUB  MAJ¥CE  ZWI¥ZEK  Z  U¯YWANIEM  OPROGRAMOWANIA,  NAWET  JEŒLI  O 
+MO¯LIWOŒCI POWSTANIA TAKICH SZKÓD OSTRZE¯ONO.
