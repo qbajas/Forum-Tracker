@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rm -f /usr/share/forum-tracker-server/src/*.pyc
+
+exit 0
