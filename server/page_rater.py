@@ -167,14 +167,14 @@ def rate_URL_no_cache(url):
     br.set_handle_refresh(False)
     br.set_handle_equiv(False)
     br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
-  #  try:
-    br.open(url)
-#        print br.response().read()
-    print "wczytano"
-    r =  rate_page(br.response().read())
- #   except:
-  #      print "Błąd przy otwieraniu strony", url
-  #      return 0.0
+    try:
+        br.open(url)
+        #print br.response().read()
+        print "wczytano"
+        r =  rate_page(br.response().read())
+    except:
+        print "Błąd przy otwieraniu strony", url
+        return 0.0
     
     print url, r
     return r
