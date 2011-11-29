@@ -66,8 +66,10 @@ Section "Forum Tracker Client (wymagane)" ForumTrackerClient
   
 
   
+  
+  
   ;ADD YOUR OWN FILES HERE...
-  File "dist\w9xpopen.exe"
+  File "dist\msvcp90.dll"
   File "dist\client.exe"
   File "dist\splash.png"
   File "dist\icon.ico"
