@@ -99,18 +99,24 @@ def find_all_dates(str):
     return reduce(operator.add, map(lambda form: find_date(form, str), date_formats))
 
 def count_delta_in_days(date1, date2):
+    """Liczy różnicę w dniach pomiędzy dwoma datami"""
     delta = date1 - date2
     return float(delta.days) + float(delta.seconds) / (3600 * 24)
         
 def rate(str):
+    """Dokonuje właściwej oceny"""
     dates = map(lambda date: count_delta_in_days(datetime.now(), date), find_all_dates(str))
+    #w dates mamy listę różnic pomiędzy wszystkimi datami na stronie, a datą aktualną
     dates.sort()
     
     i = 1
     
     sum = 0.0
+    #obliczanie oceny
     for date in dates:
+        #ocena pojedynczej daty; dzielimy przez zwiększające i żeby podbić wartość aktualnych dat
         rate = 1.0 / (date + 1) / i
+        #sumowanie
         sum = sum + rate
         i = i * 2
     return sum
@@ -130,6 +136,7 @@ def replace_nonascii(str):
 def rate_page(str):
     """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 ~ 2.0 (około).
     Im wyższa ocena tym bardziej aktualna strona."""
+    print "poczatek oceniania"
     return rate(replace_nonascii(str))
 
 def rate_URL_no_cache(url):
@@ -137,14 +144,16 @@ def rate_URL_no_cache(url):
     print 'wczytywanie:', url
     br = mechanize.Browser(factory = mechanize.RobustFactory())
     br.set_handle_robots(False)
-    br.set_handle_refresh(True)
-    br.set_handle_equiv(True)
+    br.set_handle_refresh(False)
+    br.set_handle_equiv(False)
     br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
     try:
         br.open(url)
 #        print br.response().read()
+        print "wczytano"
         r =  rate_page(br.response().read())
     except:
+        print "Błąd przy otwieraniu strony", url
         return 0.0
     
     print url, r
