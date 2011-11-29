@@ -136,10 +136,11 @@ def rate(str):
     
         
 def replace_nonascii(str): 
-    """Złe, brzydkie i nieeleganckie (ale szybko napisane :)) 
-    podmienianie polskich znaków na odpowiedniki ASCII dla utf8 i iso-8859-2.
-    Potrzebne, żeby dobrze rozpoznawać nazwy miesięcy. Na razie tylko ń ź, bo więcej 
-    nie trzeba :)."""
+"""Podmiana polskich znakow na odpowiedniki ASCII dla utf8 i iso-8859-2"""
+    #Złe, brzydkie i nieeleganckie (ale szybko napisane :)) 
+    #podmienianie polskich znaków na odpowiedniki ASCII dla utf8 i iso-8859-2.
+    #Potrzebne, żeby dobrze rozpoznawać nazwy miesięcy. Na razie tylko ń ź, bo więcej 
+    #nie trzeba :).
     str = str.replace('\xc5\xba', 'z')  # ź w utf-8
     str = str.replace('\xbc', 'z') # ź w iso
     str = str.replace('\xc5\x84', 'n') # ń w utf-8
