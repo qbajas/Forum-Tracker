@@ -4,6 +4,7 @@ PKG = forum-tracker-server_1.0.0-1_i386.deb
 package: $(PKG)
 
 $(PKG):
+		mkdir -p ./debian/usr/share/forum-tracker-server/src
 		cp $(FILES) ./debian/usr/share/forum-tracker-server/src
 		fakeroot dpkg-deb --build debian $(PKG)
 
