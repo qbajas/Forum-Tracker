@@ -1,0 +1,12 @@
+Package: forum-tracker-client
+Version: 1.0.0-1
+Architecture: i386
+Maintainer: czlowiek programista <obcym.nie@podaje.com>
+Depends: python (>= 2.6.6-1), python-qt4 (>= 4.7.3)
+Section: net
+Priority: extra
+Homepage: http://nie.ma.com
+Description: Program forum-tracker-client - klient wyświetlający śledzone fora.
+ Program forum-tracker-client jest klientem komunikującym się z serwerem,
+ wysyłającym do niego poszukiwane tematy dyskusji i odbierającym wyszukane
+ dyskusje.

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd "/usr/share/forum-tracker-server/src"
+python server.py & python -m SimpleHTTPServer 9999 &
