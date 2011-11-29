@@ -135,19 +135,28 @@ def replace_nonascii(str):
 
 def rate_page(str):
     """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 ~ 2.0 (około).
-    Im wyższa ocena tym bardziej aktualna strona."""
-    print "poczatek oceniania"
+    Im wyższa ocena tym bardziej aktualna strona."""    
     r = rate(replace_nonascii(str))
+    print "ocena wg dat: "
+    print r
+    r = add_content_rating(str,r)	
+    print "ostateczna ocena: " 
+    print r	
+    return r
 	
-    # zwiekszenioe oceny strony jesli w tresci natrafimy na 'forum' albo 'komentarze'
+def add_content_rating(str,r):
+    # zwiekszenioe oceny strony jesli w tresci natrafimy na forum albo konkretne frazy
     lower = str.lower()
-    if 'Powered by <a href="http://www.phpbb.com/">phpBB</a>'.lower() in lower :
-        r = r+1.0
+    if ('Powered by'.lower() in lower) & ('phpBB'.lower() in lower) :
+        r = r+0.3
+    if ('Powered by'.lower() in lower) & ('vBulletin'.lower() in lower) :
+        r = r+0.3
+    if 'IP.Board' in str:
+        r = r+0.3		
     if 'forum' in lower :
-        r = r+1.0
+        r = r+0.2
     if 'komentarze' in lower :
-        r = r+0.5
-	
+        r = r+0.1
     return r
 
 def rate_URL_no_cache(url):
@@ -158,14 +167,14 @@ def rate_URL_no_cache(url):
     br.set_handle_refresh(False)
     br.set_handle_equiv(False)
     br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Linux i686; rv:7.0.1) Gecko/20100101 Firefox/7.0.1')]
-    try:
-        br.open(url)
+  #  try:
+    br.open(url)
 #        print br.response().read()
-        print "wczytano"
-        r =  rate_page(br.response().read())
-    except:
-        print "Błąd przy otwieraniu strony", url
-        return 0.0
+    print "wczytano"
+    r =  rate_page(br.response().read())
+ #   except:
+  #      print "Błąd przy otwieraniu strony", url
+  #      return 0.0
     
     print url, r
     return r
