@@ -137,7 +137,18 @@ def rate_page(str):
     """Funkcja pobiera treść strony i wystawia jej ocenę aktualności w skali 0.0 ~ 2.0 (około).
     Im wyższa ocena tym bardziej aktualna strona."""
     print "poczatek oceniania"
-    return rate(replace_nonascii(str))
+    r = rate(replace_nonascii(str))
+	
+    # zwiekszenioe oceny strony jesli w tresci natrafimy na 'forum' albo 'komentarze'
+    lower = str.lower()
+    if 'Powered by <a href="http://www.phpbb.com/">phpBB</a>'.lower() in lower :
+        r = r+1.0
+    if 'forum' in lower :
+        r = r+1.0
+    if 'komentarze' in lower :
+        r = r+0.5
+	
+    return r
 
 def rate_URL_no_cache(url):
     """Pobiera treść strony i ocenia ją"""
