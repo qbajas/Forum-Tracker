@@ -45,6 +45,7 @@ def handle(s, addr):
   s.close()
  
 def askGoogle(req,lock,s):
+"""Wyslanie zapytania do Google"""
 	tls.firstSiteLinks = trac.askGoogle(req)
 #        print '\n'.join([item.encode('utf8') + ' ' + stat for item in tls.firstSiteLinks for stat in trac.getSerializedStats(tls.firstSiteLinks)])
 #        linkstat = map(lambda a,b: a.encode('utf8') + ' ' + b, tls.firstSiteLinks, trac.getSerializedStats(tls.firstSiteLinks))
@@ -60,6 +61,7 @@ def getSections(req,lock,s):
 	lock.release()
 	
 def start_server():
+"""Uruchamia serwer."""
  s = socket.socket()
  s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
  s.bind(('', 10001))

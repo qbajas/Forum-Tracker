@@ -9,6 +9,7 @@ from main_form import MainForm
 from connection_dialog import ConnectionDialog
 
 class Gui:
+"""Klasa obsługująca interfejs graficzny"""
     def __init__(self):
         self.app = QApplication(sys.argv)
         self.splash = None
@@ -16,6 +17,7 @@ class Gui:
         self.firstRun = True
     
     def display_splash_screen(self):
+	"""Pokazuje splash screen"""
         # pokazujemy okienko do ladowania
         if self.splash == None:
             pixmap = QPixmap('splash.png')
@@ -26,6 +28,7 @@ class Gui:
         self.splash.show()
     
     def close_splash_screen(self):
+	"""Zamyka splash-screen i pokazuje główny element GUI"""
         # zamkniecie splasha powoduje jednoczesnie pokazanie glownego gui
         self.form.show()
         self.splash.finish(self.form)
@@ -36,6 +39,7 @@ class Gui:
             self.app.exec_()
     
     def display_connection_dialog(self, clientApp):
+	"""Wyświetla okno do zmiany konfiguracji połączenia"""
         # pokazujemy okno do zmiany danych o polaczeniu
         self.form = ConnectionDialog(clientApp)
         

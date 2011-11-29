@@ -9,6 +9,7 @@ import time, os, socket
 from gui import Gui
 
 class Client:
+"""Główna klasa klienta"""
 	def __init__(self):
 		#self.ws_server = 'users.agh.edu.pl'
 		self.ws_server = 'users.dsnet.agh.edu.pl'
@@ -19,6 +20,7 @@ class Client:
 		self.tryConnect()
 		
 	def tryConnect(self):
+	"""Połączenie z domyślnym serwerem."""
 		try:
 			self.gui.display_splash_screen()
 			
@@ -32,6 +34,7 @@ class Client:
 			self.gui.display_connection_dialog(self)
 	
 	def askGoogle(self, topic):
+	"""Wysłanie zapytania do serwera"""
 		self.ws.send('askGoogle###' + topic)
 		
 		print "Sent: '%s'\n" % topic

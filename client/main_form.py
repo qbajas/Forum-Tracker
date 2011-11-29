@@ -6,7 +6,7 @@ from PyQt4.QtCore import *
 
 
 class MainForm(QWidget):
-    
+    """Główny interfejs aplikacji"""
     def __init__(self, clientApp):
         super(MainForm, self).__init__()
         
@@ -16,7 +16,7 @@ class MainForm(QWidget):
         self.initUI()
         
     def initUI(self):
-        
+        """Inicjalizacja interfejsu"""
         askGoogleLabel = QLabel('Zapytaj Google:')
         
         askGoogleEdit = QLineEdit()
